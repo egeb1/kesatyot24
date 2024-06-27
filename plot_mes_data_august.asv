@@ -1,0 +1,278 @@
+clear all
+
+
+freq1 = 75;
+freq2 = 71;
+f=60:90;           % operating freaquency
+numOfLines = 64;   % startin from 1, 2,3,4,5,6...
+
+% get the right lines from the files that match the wanted freaquency
+freqLine1 =freq1-59; 
+freqLine2 = freq2-59;
+
+
+% phase correction according to the distance to the center of the antenna
+% array
+c = physconst('LightSpeed');
+lambda1 = c/(freq1*10^9);
+lambda2 = c/(freq2*10^9);
+phaseCorA1 = (2*pi*0.075020830440618)/lambda1;
+phaseCorB1 = (2*pi*0.075104094428999)/lambda1;
+phaseCorC1 = (2*pi*0.075270346086623)/lambda1;
+phaseCorD1 = (2*pi*0.075519037334966)/lambda1;
+phaseCorE1 = (2*pi*0.075187266209113)/lambda1;
+phaseCorF1 = (2*pi*0.075353334365508)/lambda1;
+phaseCorG1 = (2*pi*0.075519037334966)/lambda1;
+phaseCorH1 = (2*pi*0.075601752625187)/lambda1;
+phaseCorI1 = (2*pi*0.075766912303459)/lambda1;
+phaseCorJ1 = (2*pi*0.076013978977554)/lambda1;
+
+phaseCorA2 = (2*pi*0.075020830440618)/lambda2;
+phaseCorB2 = (2*pi*0.075104094428999)/lambda2;
+phaseCorC2 = (2*pi*0.075270346086623)/lambda2;
+phaseCorD2 = (2*pi*0.075519037334966)/lambda2;
+phaseCorE2 = (2*pi*0.075187266209113)/lambda2;
+phaseCorF2 = (2*pi*0.075353334365508)/lambda2;
+phaseCorG2 = (2*pi*0.075519037334966)/lambda2;
+phaseCorH2 = (2*pi*0.075601752625187)/lambda2;
+phaseCorI2 = (2*pi*0.075766912303459)/lambda2;
+phaseCorJ2 = (2*pi*0.076013978977554)/lambda2;
+
+% Loop trough different elements and get measurement data for each element
+for a=35:36
+    
+    elementNumber = sprintf('%02d', a);
+    %find the right folder where measured files are
+    folderPath = ['\\home.org.aalto.fi\pietile6\data\Documents\Eero_P_VTT_antenna_measurements_summer2023\augustMeas\',elementNumber,'_D0_16_32_255_D1_16_32_255']; 
+    filePattern = fullfile(folderPath, '*.txt');  
+    
+
+    % gets the measurement files from the folder
+    fileList = dir(filePattern);
+    
+    % Preallocate array for values to plot.
+    plotLine1 = zeros(1, length(fileList)); 
+    plotLine2 = zeros(1, length(fileList)); 
+    
+    %phaseToPlot710 = zeros(1, length(fileList)); 
+    %phaseToPlot720 = zeros(1, length(fileList)); 
+    
+    % for-loop to get data from diffrent files. Each element has 64
+    % different files that we will go trough
+    for i = 1:length(fileList)
+
+        filePath = fullfile(folderPath, fileList(i).name);
+        
+        % Read data from the file
+        fileData = fileread(filePath);
+        
+        % Split the file data into lines
+        lines = strsplit(fileData, '\n');
+        
+        % Initialize arrays to store parsed data
+        frequency = [];
+        amplitude = zeros(1,10);
+        phase = zeros(1,10);
+        
+        % Loop trough all the data lines on the current file. Should be 31
+        % line since freq 60-90 GHz
+        for j = 1:length(lines)
+            lineData = str2num(lines{j});  % Convert line to numeric array
+            
+            % Check if the row has valid data
+            if ~isempty(lineData)
+                % get the freq value of current row and store it to vector
+                frequency(j) = lineData(1);
+                % Extract alternating amplitude and phase values
+                % get all other data from the l
+                ampPhaseData = lineData(2:end);
+                amplitude(j, :) = ampPhaseData(1:2:end);
+                phase(j, :) = ampPhaseData(2:2:end);
+            end
+        end
+    
+    
+        % get amplitudes and phases to right arrays that correspond to right
+        % measurement frequency
+    
+        ampLine1 = amplitude(freqLine1, :);
+        phaseLine1 = phase(freqLine1, :);
+    
+        ampLine2 = amplitude(freqLine2, :);
+        phaseLine2 = phase(freqLine2, :);
+    
+    
+        if ismember(a, [28, 29, 36, 37])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i*phaseCorA1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorA2 );
+        
+        elseif ismember(a, [20, 21, 30, 38, 45, 44, 27, 35])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorB1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorB2 );
+        elseif ismember(a, [12, 13, 31, 39, 52, 53, 26, 34])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorC1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorC2 );
+        elseif ismember(a, [4, 5, 32, 40, 61, 60, 25, 33, 11, 14, 18, 23, 42, 47, 51, 54])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorD1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorD2 );
+        elseif ismember(a, [19, 22, 46, 43])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorE1);
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorE2);
+        elseif ismember(a, [11, 18, 14, 23, 47, 54, 51, 42])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorF1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorF2 );
+        elseif ismember(a, [10,15,55,50])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorG1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorG2 );
+        elseif ismember(a, [3, 17, 6, 24, 48, 62, 59, 41])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorH1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorH2 );          
+        elseif ismember(a, [2, 9, 7 ,16, 56, 63, 58, 49])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorI1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorI2 );    
+        elseif ismember(a, [1, 8, 57, 64])
+            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorJ1 );
+            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorJ2 );  
+        end
+        plotLine1(i) =meanComplex1 ;%selectedAmplitude710(5);
+        %phaseToPlot710(i) = meanComplex720;%selectedPhase710(5);
+        plotLine2(i) = meanComplex2;
+      %  ampToPlot720(i) = selectedAmplitude720(5);
+      %  phaseToPlot720(i) = selectedPhase720(5);
+    
+    end
+    
+    %plot amplitude 
+    
+  %  Line 1
+    % figure (1);
+    % x=1:1:(numOfLines);
+    % plot(x,20*log10(abs(plotLine1)));
+    % eval(['title(''Amplitude - Frequency ' num2str(f(freqLine1)) ' GHz'')']);
+    % xlabel('file number')
+    % ylabel('amplitude dB')
+    % ylim([-95, -35])
+    % 
+    % Line 2 
+    %figure (2);
+    %plot(x,20*log10(abs(plotLine2)));
+    % eval(['title(''Amplitude - Frequency ' num2str(f(freqLine2)) ' GHz'')']);
+    % xlabel('file number')
+    % ylabel('amplitude dB')
+    %ylim([-95, -35])
+    
+    %print out amplitude vectors.
+    % fprintf('amp 71.0GHz:')
+    % disp(ampToPlot710);
+    % fprintf('amp 72.0GHz:')
+    % disp(ampToPlot720);
+    % 
+    % fprintf('phase 71.0GHz:')
+    % disp(phaseToPlot710);
+    % fprintf('phase 72.0GHz:')
+    % disp(phaseToPlot720);
+    
+    
+    
+    % Create a polar plot for the amplitudes and phases
+    
+    % Convert phases from degrees to radians
+    %phaseToPlot710Rad = deg2rad(phaseToPlot710);
+    
+    %phaseToPlot720Rad = deg2rad(phaseToPlot720);
+    
+    %complex_710 = 10.^(ampToPlot710/20) .* exp(1i * phaseToPlot710Rad);
+    %complex_720 = 10.^(ampToPlot720/20) .* exp(1i * phaseToPlot720Rad);
+    
+
+
+
+    % get max amplitude and it's angle
+    [maxAmpl1, maxAmplIndex1] = max(abs(plotLine1));
+    maxAmplitudeAngle1 = angle(plotLine1(maxAmplIndex1));
+    
+    % maximum amplitude to Cartesian coordinates
+    maxAmplitudePoint1 = maxAmpl1 * exp(1i * maxAmplitudeAngle1);
+    
+    oppositeAngle1 = maxAmplitudeAngle1 + pi;
+    if oppositeAngle1 > pi
+        oppositeAngle1 = oppositeAngle1 - 2*pi;
+    end
+    
+    % Find the point with the highest amplitude in the opposite direction
+    oppositePointIndices1 = find(abs(angle(plotLine1) - oppositeAngle1) <= deg2rad(22.5));
+    [oppositePointAmplitude1, oppositePointIndex1] = max(abs(plotLine1(oppositePointIndices1)));
+    oppositePointAngle1 = angle(plotLine1(oppositePointIndices1(oppositePointIndex1)));
+    
+    % Polar plot line 1
+    figure;
+    polarplot(plotLine1, 'o');
+    hold on;
+    % Plot the maximum amplitude point, the furthest point, and the opposite point
+    polarplot([oppositePointAngle1 maxAmplitudeAngle1], [oppositePointAmplitude1 maxAmpl1], 'r', 'LineWidth', 2);
+    polarplot(plotLine1(maxAmplIndex1), 'go', 'MarkerSize', 10, 'LineWidth', 2);
+    polarplot(oppositePointAngle1, oppositePointAmplitude1, 'mo', 'MarkerSize', 10, 'LineWidth', 2);
+    hold off;
+    
+    if(isempty(oppositePointAmplitude1))
+       amplitudeDifference_dB1 = Inf; 
+        title([elementNumber ' Polar Plot - Frequency ' num2str(freq1) ' GHz']);
+        subtitle(['Amplitude diff. of opposite values: NaN dB, DAC0 and DAC1 16 32 255'])
+    else
+        amplitudeDifference_dB1 = 20 * log10(maxAmpl1 / oppositePointAmplitude1);
+        title([elementNumber ' Polar Plot - Frequency ' num2str(freq1) ' GHz']);
+        subtitle(['Amplitude diff. of opposite values: ', num2str(amplitudeDifference_dB1),' dB, DAC0 and DAC1 16 32 255'])
+    end
+
+    %rlim([-80 -40])
+    % Polar plot line 2
+   % saveas(gcf,fullfile('VTT_transarray_matlab_pictures',[elementNumber,'_', num2str(freq1) ,'_polarplot_maski_elokuu_D0_16_32_255_D1_16_32_255_phaseCorrection.jpg']))
+
+
+
+
+    % get max amplitude and it's angle
+    [maxAmpl2, maxAmplIndex2] = max(abs(plotLine2));
+    maxAmplitudeAngle2 = angle(plotLine2(maxAmplIndex2));
+    
+    % maximum amplitude to Cartesian coordinates
+    maxAmplitudePoint2 = maxAmpl2 * exp(1i * maxAmplitudeAngle2);
+    
+    oppositeAngle2 = maxAmplitudeAngle2 + pi;
+    if oppositeAngle2 > pi
+        oppositeAngle2 = oppositeAngle2 - 2*pi;
+    end
+    
+    % Find the point with the highest amplitude in the opposite direction
+    oppositePointIndices2 = find(abs(angle(plotLine2) - oppositeAngle2) <= deg2rad(22.5));
+    [oppositePointAmplitude2, oppositePointIndex2] = max(abs(plotLine2(oppositePointIndices2)));
+    oppositePointAngle2 = angle(plotLine2(oppositePointIndices2(oppositePointIndex2)));
+    
+    % Polar plot line 2
+    figure;
+    polarplot(plotLine2, 'o');
+    hold on;
+    % Plot the maximum amplitude point, the furthest point, and the opposite point
+    polarplot([oppositePointAngle2 maxAmplitudeAngle2], [oppositePointAmplitude2 maxAmpl2], 'r', 'LineWidth', 2);
+    polarplot(plotLine2(maxAmplIndex2), 'go', 'MarkerSize', 10, 'LineWidth', 2);
+    polarplot(oppositePointAngle2, oppositePointAmplitude2, 'mo', 'MarkerSize', 10, 'LineWidth', 2);
+    hold off;
+    
+    if(isempty(oppositePointAmplitude2))
+       amplitudeDifference_dB2 = Inf; 
+        title([elementNumber ' Polar Plot - Frequency ' num2str(freq2) ' GHz']);
+        subtitle(['Amplitude diff. of opposite values: NaN dB, DAC0 and DAC1 16 32 255'])
+    else
+        amplitudeDifference_dB2 = 20 * log10(maxAmpl2 / oppositePointAmplitude2);
+        title([elementNumber ' Polar Plot - Frequency ' num2str(freq2) ' GHz']);
+        subtitle(['Amplitude diff. of opposite values: ', num2str(amplitudeDifference_dB2),' dB, DAC0 and DAC1 16 32 255'])
+    end
+
+
+
+    %rlim([-80 -40])
+  %  saveas(gcf,fullfile('VTT_transarray_matlab_pictures',[elementNumber,'_', num2str(freq2) ,'_polarplot_maski_elokuu_D0_16_32_255_D1_16_32_255_phaseCorrection.jpg']))
+end
+
+
+

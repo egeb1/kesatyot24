@@ -1,0 +1,40 @@
+%Eero Pietiläinen 3.7.2023
+clear
+[filename, pathname] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a1 = fullfile(pathname,filename);
+filename = a1;
+element_number = extractBetween(filename, "neg", "deg");
+element_number = str2double(element_number{1});
+values = readtable(filename,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp = values.Amp;
+phase = values.Phase;
+
+% [filename2, pathname2] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+% a2 = fullfile(pathname2,filename2);
+% filename2 = a2;
+% values_180 = readtable(filename2,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+% amp_180 = values_180.Amp;
+% phase_180 = values_180.Phase;
+
+
+% taking only the part where elevation is zero
+
+amp = [amp(9871:10011)];
+
+phase = [phase(9871:10011)];
+
+
+
+
+
+% Plot images
+x = linspace(-70,70,141);
+
+plot(x,amp,'b');
+xlabel('azimuth (deg.)')
+ylabel('Amplitude(dB)')
+title(['Far field amplitude, direction negative ' num2str(element_number),'deg and all elements on'])
+subtitle('Farfield measurement at 75GHz')
+
+
+saveas(gcf,fullfile('VTT_transarray_matlab_pictures', ['FF_amplitude_neg',num2str(element_number),'deg_003_all_elementsON.jpg']));

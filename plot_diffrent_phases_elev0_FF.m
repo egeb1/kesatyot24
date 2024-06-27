@@ -1,0 +1,58 @@
+% Eero Pietiläinen 27.6.2023
+% Kahden vastakkaisessa vaiheessa olevan elementin FF amplitudin piirettynä.
+% Lisäksi piirrettynä on amplitudien erotus. Kaikki arvot desibeleinä.
+% Aktiivisena mittauksissa oli elementti 36 ja muut elementit eivät olleet
+% aktiivisia ja niiden vaiheet oli laitettu mukailemaan shakkikuviota.
+% Viereiset elementit vastakkaisissa vaiheissa.
+clear 
+[filename, pathname] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a1 = fullfile(pathname,filename);
+filename = a1;
+%element_number = extractBetween(filename, "row", "active_phase");
+%element_number = str2double(element_number{1});
+values_0 = readtable(filename,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_0 = values_0.Amp;
+phase_0 = values_0.Phase;
+
+[filename2, pathname2] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a2 = fullfile(pathname2,filename2);
+filename2 = a2;
+values_180 = readtable(filename2,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_180 = values_180.Amp;
+phase_180 = values_180.Phase;
+
+
+% Otetaan datasta kohdat, joissa elevaatio on nolla
+
+amp_0 = [amp_0(9871:10011)];
+amp_180 = [amp_180(9871:10011)];
+phase_0 = [phase_0(9871:10011)];
+phase_180 = [phase_180(9871:10011)];
+
+% Lasketaan amplitudien erotus
+% dB asteikolta lineaariseen ja otetaan vaihe huomioon
+amp_0_ndB = 10.^(amp_0/20).*exp(1i*phase_0*pi/180);
+amp_180_ndB = 10.^(amp_180/20).*exp(1i*phase_180*pi/180);
+
+% Varsinainen erotus ja siitä siirrytään takaisin dB-asteikolle
+amp_tot = 20 * log10(abs(amp_0_ndB - amp_180_ndB));
+
+
+% Piirretään kuvat
+
+x = linspace(-70,70,141);
+
+plot(x,amp_0,'b');
+hold on
+plot(x,amp_180, 'r');
+%plot(x,amp_tot, 'g');
+xlabel('azimuth (deg.)')
+ylabel('Amplitude(dB)')
+title('Far field amplitude. Comparing data from June and July 2023')
+subtitle('Farfield measurement at 75GHz, Direction azimuth 0 (deg), 20x20')
+ylim([-160 -90])
+legend('June', 'July', 'Location', 'best');
+hold off
+
+
+saveas(gcf,fullfile('VTT_transarray_matlab_pictures', 'FF_amplitudes_June_vs_July_heina_20x20_.jpg'));
