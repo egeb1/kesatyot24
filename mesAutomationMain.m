@@ -1,48 +1,70 @@
 % Main code for controlling arduino and VNA
 % Eero Pietiläinen 10.8.2023
+% modified 14.6.2024 by Eero Pietiläinen
 clc
-
-try
 addpath('PNARead\')
+
+% for-loop to go over all 64 elements. 
+for activeElement = 1:1:64
+
+disp(['measuring element:',num2str(activeElement)] )
+try
 % set VNA values from VNA itself. Example set frequency and mmwSetup. Set f
 % range in matlab code to same freq range and as in VNA. NumPoints as well
 % check from VNA.
 % set how many rows of data inputed to arduino
-numOfControlUnits = 1;
+numOfControlUnits = 15;
 % Element set to be active -6dB?
-activeElement = 16;
+%activeElement = 1;
 % frequency
 f = [60e9, 90e9];
 % number of measurement points
 numPoints = 31;
 % arduino COM port
 comPort ='COM5';
-measurementName = 'extenders_only_vaimennin_OFF';
-
+% update arduino file with elements DAC values.
+updateDACs(activeElement,comPort)
+% pause; to stop code from running
+% until enter is pressed so there is time to move measurement probe and
+% mask.
+pause;
+measurementName = 'element wise measurements';
 % folder where to save measurement data
-folderPathAndName = ['C:\Users\meas\Desktop\2023-06-20 Mittaukset\augustMeas\' [num2str(activeElement),'_D0_16_32_255_D1_16_32_255']];
+folderPathAndName = ['C:\Users\meas\Desktop\2024_mittaukset\augustMeas\' [num2str(activeElement),'_D0_16_32_255_D1_16_32_255']];
 makeFolder = mkdir(folderPathAndName);
 % Connect to arduino
-serialConnection = serial(comPort, 'BAUD', 230400);
-fopen(serialConnection);
+
+try
+    serialConnection = serialport(comPort, 230400);
+    disp('Serial monitor opened successfully.');
+catch e
+    disp('Failed to open serial monitor.');
+    disp(['Error: ', e.message]);
+    return;
+end
+
 %pause for 4seconds to wait for the board to reset
 pause(4);
-
 % Loop to go trough diffrent control units and measure data.
 for i = 1 : numOfControlUnits
+    
     setControlUnit(serialConnection,i-1); %i-1 because control units start from 0 in arduino
-    pause(2);
+    read(serialConnection,serialConnection.NumBytesAvailable,'string')
+    pause(3);
     crtlUnitFormatted = sprintf('%03d', i-1); % Format index with leading zeros
-    read_measurements([0,1],f,numPoints,folderPathAndName,[num2str(activeElement),'_',crtlUnitFormatted]);
+    %read_measurements([0,1],f,numPoints,folderPathAndName,[num2str(activeElement),'_',crtlUnitFormatted]);
     
 end
+read(serialConnection,serialConnection.NumBytesAvailable,'string')
 % close connection to arduino
-fclose(serialConnection);
+delete(serialConnection);
+
 
 
 
 catch ME
-    fclose(serialConnection);
+    delete(serialConnection);
     rethrow(ME)
 end
 
+end
