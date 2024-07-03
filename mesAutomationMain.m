@@ -13,7 +13,7 @@ try
 % range in matlab code to same freq range and as in VNA. NumPoints as well
 % check from VNA.
 % set how many rows of data inputed to arduino
-numOfControlUnits = 15;
+numOfControlUnits = 64;
 % Element set to be active -6dB?
 %activeElement = 1;
 % frequency
@@ -30,7 +30,7 @@ updateDACs(activeElement,comPort)
 pause;
 measurementName = 'element wise measurements';
 % folder where to save measurement data
-folderPathAndName = ['C:\Users\meas\Desktop\2024_mittaukset\augustMeas\' [num2str(activeElement),'_D0_16_32_255_D1_16_32_255']];
+folderPathAndName = ['C:\Users\meas\Desktop\2024_mittaukset\julyMeas\' [num2str(activeElement),'_D0_16_32_255_D1_16_32_255']];
 makeFolder = mkdir(folderPathAndName);
 % Connect to arduino
 
@@ -52,7 +52,7 @@ for i = 1 : numOfControlUnits
     read(serialConnection,serialConnection.NumBytesAvailable,'string')
     pause(3);
     crtlUnitFormatted = sprintf('%03d', i-1); % Format index with leading zeros
-    %read_measurements([0,1],f,numPoints,folderPathAndName,[num2str(activeElement),'_',crtlUnitFormatted]);
+    read_measurements([0,1],f,numPoints,folderPathAndName,[num2str(activeElement),'_',crtlUnitFormatted]);
     
 end
 read(serialConnection,serialConnection.NumBytesAvailable,'string')
