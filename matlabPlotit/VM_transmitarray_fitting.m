@@ -17,12 +17,12 @@ d = 2.5e-3;
 %d = 2.2e-3;
 %d/lambda0;
 
-% 8x8-transmitarray-ryhm‰n amplitudit ja vaiheet, 75 mm et‰isyys
+% 8x8-transmitarray-ryhm√§n amplitudit ja vaiheet, 75 mm et√§isyys
 % load simulated amplitude and phase data (include correct path)
 load 'amp_75mm_all'
 load 'ph_75mm_all'
 
-% amplitudi (ensimm‰inen t‰ysi ympyr‰ A=-6)
+% amplitudi (ensimm√§inen t√§ysi ympyr√§ A=-6)
 % 64-el array amplitudit (-6 dB is maximum)
 % Pre-compensation of amplitude
 % vivaldi
