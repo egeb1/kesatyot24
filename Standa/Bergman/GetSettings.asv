@@ -1,0 +1,133 @@
+addpath('src')
+
+try 
+
+    %%Calibrating script for single stage
+    axisPort = 1; 
+    %%
+    
+    %Check if ximc library is loaded. If not load it
+    if not(libisloaded('libximc'))
+        disp('Loading library')
+        [notfound,warnings] = loadlibrary('libximc.dll', @ximcm);
+    end
+    
+    %Check for devices and enumerate them.
+    device_names = ximc_enumerate_devices_wrap(1, '');
+    devices_count = size(device_names,2);
+    
+    %This script is made for two stages so check there is exactly two devices
+    if devices_count ~= 2
+        disp(['Wrong number of devices found(' num2str(devices_count) ')'])
+        return
+    else
+        device_ids = [];
+        for i=1:devices_count
+            disp(['Found device: ', device_names{1,i}]);
+            device_id_tmp = calllib('libximc','open_device', device_names{1,i});
+            if i==axisPort
+                device_id = device_id_tmp;
+                disp(['Using device id ', num2str(device_id)]);
+            else
+                device_id_ptr = libpointer('int32Ptr', device_id_tmp);
+                calllib('libximc','close_device', device_id_ptr);
+            end
+        end
+    end
+    
+    %%
+    %Set the zero position
+    
+    % -------------------
+    % Home Settings
+    % -------------------
+    dummy_struct = struct('HomeFlags',999);
+    parg_struct = libpointer('home_settings_t', dummy_struct);
+    [result, home_settings] = calllib('libximc','get_home_settings', ...
+                                       device_id, parg_struct)
+    clear parg_struct
+    if result ~= 0
+        disp(['Command failed with code', num2str(result)]);
+        home_settings = 0;
+    end
+
+    % -------------------
+    % Move Settings
+    % -------------------
+    
+    dummy_struct = struct('MoveFlags',999);
+    parg_struct = libpointer('move_settings_t', dummy_struct);
+    [result, move_settings] = calllib('libximc','get_move_settings', ...
+                                       device_id, parg_struct)
+    clear parg_struct
+    if result ~= 0
+        disp(['Command failed with code', num2str(result)]);
+        home_settings = 0;
+    end
+
+    % -------------------
+    % Engine Settings
+    % -------------------
+    
+    dummy_struct = struct('EngineFlags',999);
+    parg_struct = libpointer('engine_settings_t', dummy_struct);
+    [result, engine_settings] = calllib('libximc','get_engine_settings', ...
+                                       device_id, parg_struct)
+    clear parg_struct
+    if result ~= 0
+        disp(['Command failed with code', num2str(result)]);
+        home_settings = 0;
+    end
+
+    % -------------------
+    % Power Settings
+    % -------------------
+    
+    dummy_struct = struct('PowerFlags',999);
+    parg_struct = libpointer('power_settings_t', dummy_struct);
+    [result, power_settings] = calllib('libximc','get_power_settings', ...
+                                       device_id, parg_struct)
+    clear parg_struct
+    if result ~= 0
+        disp(['Command failed with code', num2str(result)]);
+        home_settings = 0;
+    end
+
+    % -------------------
+    % All Settings
+    % -------------------
+    
+    dummy_struct = struct('PowerFlags',999);
+    calllib('libximc','command_read_settings', ...
+                                       device_id)
+
+
+    clear parg_struct
+    if result ~= 0
+        disp(['Command failed with code', num2str(result)]);
+        home_settings = 0;
+    end
+
+    % home_settings.HomeFlags = 48;
+    % result = calllib('libximc', 'set_home_settings', device_id, home_settings);
+    % if result ~= 0
+    %     disp(['Command failed with code', num2str(result)]);
+    % end
+    
+    
+    
+    % 
+    % %Close device so it can be used by another program
+    %
+    device_id_ptr = libpointer('int32Ptr', device_id);
+    calllib('libximc','close_device', device_id_ptr);
+
+catch ME
+    
+
+    device_id_ptr = libpointer('int32Ptr', device_id);
+    calllib('libximc','close_device', device_id_ptr);
+
+    rethrow(ME)
+
+end

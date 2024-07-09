@@ -1,0 +1,28 @@
+Ohjeet Standan moottoriohjaimen 8SMC5-USB-B9-2 ja siirtimien käyttöön
+
+0. Standan powerin jännite 36 V on liian iso meidän siirtimille! Tilaa 12 V poweri, todennäköisesti askelmoottorit ei kestä 36 volttia.
+
+1. Suorita asennus PC:lle näiden ohjeiden mukaan: https://doc.xisupport.com/en/8smc5-usb/8SMC5-USB.pdf
+
+2. Selvitä käyttämäsi siirtimen tyyppi ja varmistu kaapelin oikeasta pinnijärjestyksestä. Esimerkiksi, 100 mm:n siirrin, jossa on Berger Lahr RDM 253/50 askelmoottori, kytketään askelmoottoriohjaimeen tämän datasheetin mukaisesti: https://rgbautomatyka.pl/media/docs/en/59/RDM253-50%20BERGER%20LAHR%20-%20product%20information.pdf
+
+Askelmoottorin, kaapelin ja ohjaimen 8SMC5-USB-B9-2 pinnijärjestys kannattaa mitata yleismittarilla, jossa on valmiina pinneihin sopivat kustomiliitinpäät. Harmaa kaapeli, jossa mustat muoviset D-SUB rungot, tuntuu olevan kunnossa. Vaaleampi itse tehty kaapeli tai ainakin siirtimen rajakytkimet lienevät jotenkin väärin --> käy läpi.
+
+3. Selvitä käyttämäsi siirtimen tyyppi, jonka lataat ohjaimen pysyvään muistiin XILab-ohjelmalla: settings --> load settings from file --> C:\Program Files\XILab\profiles\STANDA --> esim 8MT175-200.cfg (nämä eivät ole varmoja, koska siirtimet ovat ehkä jo poistuneita malleja, valistunut arvaus on hyvä, Standan sicuilta kannattaa etsiä vastaavuuksia).
+
+Hyvät veikkaukset on
+
+100-mm, 2.5 um, kapea siirrin: 8MT175-200.cfg  ### Korjaus 2024-07-02: 8MT175-100.cfg
+100-mm, 1 um, leveä siirrin: 8MT167-100.cfg
+
+4. Esimerkkiskriptejä siirtimien liikutteluun ovat:
+
+C:\src\MATLAB\StandaTarget\CalibrateSingle.m
+C:\src\MATLAB\StandaTarget\TargetScript_RAND.m
+C:\src\MATLAB\StandaTarget\TargetScript_SINGLEROT.m
+C:\src\MATLAB\StandaTarget\TargetScript_STOP_AND_GO.m
+
+
+
+
+
