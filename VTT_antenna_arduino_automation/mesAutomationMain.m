@@ -4,6 +4,7 @@
 clc
 addpath('PNARead\')
 addpath('VTT_antenna_arduino_automation\')
+addpath('Standa\Bergman')
 
 % for-loop to go over all 64 elements. 
 for activeElement = 1:1:64
@@ -23,8 +24,33 @@ f = [60e9, 90e9];
 numPoints = 31;
 % arduino COM port
 comPort ='COM5';
+
+
+% Script to run the functions in parallel
+% Create a parallel pool if it does not exist
+if isempty(gcp('nocreate'))
+    parpool;
+end
+
+% Determine how much move mask and probe when elements are
+% measured from 1 to 64. Y position should always move and X pos moves
+% after 8 elements have been measured
+dx = 1000; % means that we move 1000 steps when 1 step is 2.5 um
+dy = 2500; % moving 2500 steps when 1 step is 1 um
+x = floor((activeElement - 1) / 8) * dx;
+y = mod((activeElement - 1), 8) * dy;
+
+% Run updating DACs and moving mask&probe in parallel to save time
+f1 = parfeval(@updateDACs, 0,activeElement,comPort); % 0 is the number of output arguments
+f2 = parfeval(@moveMaskAndProbe, 0,xpos, ypos);
+
+%w Wait for both to be ready before continuing
+wait(f1)
+wait(f2)
+
 % update arduino file with elements DAC values.
-updateDACs(activeElement,comPort)
+%updateDACs(activeElement,comPort)
+
 % pause; to stop code from running
 % until enter is pressed so there is time to move measurement probe and
 % mask.
