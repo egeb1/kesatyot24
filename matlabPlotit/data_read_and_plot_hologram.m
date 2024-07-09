@@ -3,7 +3,10 @@
 % Plots Hologram data into 2D image.
 clear
 figure(1)
-values = readtable('VTT_transarray_centred_0deg_004_2_beam7hologram.txt','NumHeaderLines',61, 'ExpectedNumVariables',4);
+[filename, pathname] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a1 = fullfile(pathname,filename);
+filename = a1;
+values = readtable(filename,'NumHeaderLines',61, 'ExpectedNumVariables',4);
 amp = values.Amp;
 amp = (reshape(amp,[201,201]));
 k= linspace(-0.025,0.025,201);
@@ -20,7 +23,10 @@ ylabel('y(m)')
 title('element 36 phase 0 amplitude in 2D')
 
 figure(2)
-values_180 = readtable('VTT_transarray_centred_plus40deg_008_beam7_holo.txt','NumHeaderLines',61, 'ExpectedNumVariables',4);
+[filename2, pathname2] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a2 = fullfile(pathname2,filename2);
+filename2 = a2;
+values_180 = readtable(filename2,'NumHeaderLines',61, 'ExpectedNumVariables',4);
 
 amp_180 = values_180.Amp;
 amp_180 = (reshape(amp_180,[201,201]));

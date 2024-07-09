@@ -2,7 +2,7 @@ clear all
 
 
 freq1 = 75;
-freq2 = 71;
+freq2 = 72;
 f=60:90;           % operating freaquency
 numOfLines = 64;   % startin from 1, 2,3,4,5,6...
 
@@ -39,7 +39,7 @@ phaseCorI2 = (2*pi*0.075766912303459)/lambda2;
 phaseCorJ2 = (2*pi*0.076013978977554)/lambda2;
 
 % Loop trough different elements and get measurement data for each element
-for a=35:36
+for a=36:36
     
     elementNumber = sprintf('%02d', a);
     %find the right folder where measured files are
@@ -108,36 +108,36 @@ for a=35:36
     
     
         if ismember(a, [28, 29, 36, 37])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i*phaseCorA1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorA2 );
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i*phaseCorA1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorA2 );
         
         elseif ismember(a, [20, 21, 30, 38, 45, 44, 27, 35])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorB1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorB2 );
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorB1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorB2 );
         elseif ismember(a, [12, 13, 31, 39, 52, 53, 26, 34])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorC1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorC2 );
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorC1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorC2 );
         elseif ismember(a, [4, 5, 32, 40, 61, 60, 25, 33, 11, 14, 18, 23, 42, 47, 51, 54])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorD1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorD2 );
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorD1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorD2 );
         elseif ismember(a, [19, 22, 46, 43])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorE1);
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorE2);
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorE1);
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorE2);
         elseif ismember(a, [11, 18, 14, 23, 47, 54, 51, 42])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorF1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorF2 );
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorF1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorF2 );
         elseif ismember(a, [10,15,55,50])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorG1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorG2 );
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorG1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorG2 );
         elseif ismember(a, [3, 17, 6, 24, 48, 62, 59, 41])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorH1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorH2 );          
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorH1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorH2 );          
         elseif ismember(a, [2, 9, 7 ,16, 56, 63, 58, 49])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorI1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorI2 );    
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorI1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorI2 );    
         elseif ismember(a, [1, 8, 57, 64])
-            meanComplex1 = mean(10.^(ampLine1/20) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorJ1 );
-            meanComplex2 = mean(10.^(ampLine2/20) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorJ2 );  
+            meanComplex1 = mean(10.^(ampLine1/10) .* exp(1i * phaseLine1 *pi/180 ))* exp(1i *phaseCorJ1 );
+            meanComplex2 = mean(10.^(ampLine2/10) .* exp(1i * phaseLine2 *pi/180 ))* exp(1i *phaseCorJ2 );  
         end
         plotLine1(i) =meanComplex1 ;%selectedAmplitude710(5);
         %phaseToPlot710(i) = meanComplex720;%selectedPhase710(5);
@@ -152,7 +152,7 @@ for a=35:36
   %  Line 1
     % figure (1);
     % x=1:1:(numOfLines);
-    % plot(x,20*log10(abs(plotLine1)));
+    % plot(x,10*log10(abs(plotLine1)));
     % eval(['title(''Amplitude - Frequency ' num2str(f(freqLine1)) ' GHz'')']);
     % xlabel('file number')
     % ylabel('amplitude dB')
@@ -160,7 +160,7 @@ for a=35:36
     % 
     % Line 2 
     %figure (2);
-    %plot(x,20*log10(abs(plotLine2)));
+    %plot(x,10*log10(abs(plotLine2)));
     % eval(['title(''Amplitude - Frequency ' num2str(f(freqLine2)) ' GHz'')']);
     % xlabel('file number')
     % ylabel('amplitude dB')
@@ -186,48 +186,53 @@ for a=35:36
     
     %phaseToPlot720Rad = deg2rad(phaseToPlot720);
     
-    %complex_710 = 10.^(ampToPlot710/20) .* exp(1i * phaseToPlot710Rad);
-    %complex_720 = 10.^(ampToPlot720/20) .* exp(1i * phaseToPlot720Rad);
+    %complex_710 = 10.^(ampToPlot710/10) .* exp(1i * phaseToPlot710Rad);
+    %complex_720 = 10.^(ampToPlot720/10) .* exp(1i * phaseToPlot720Rad);
     
 
 
-
-    % get max amplitude and it's angle
-    [maxAmpl1, maxAmplIndex1] = max(abs(plotLine1));
-    maxAmplitudeAngle1 = angle(plotLine1(maxAmplIndex1));
-    
-    % maximum amplitude to Cartesian coordinates
-    maxAmplitudePoint1 = maxAmpl1 * exp(1i * maxAmplitudeAngle1);
-    
-    oppositeAngle1 = maxAmplitudeAngle1 + pi;
-    if oppositeAngle1 > pi
-        oppositeAngle1 = oppositeAngle1 - 2*pi;
-    end
-    
-    % Find the point with the highest amplitude in the opposite direction
-    oppositePointIndices1 = find(abs(angle(plotLine1) - oppositeAngle1) <= deg2rad(22.5));
-    [oppositePointAmplitude1, oppositePointIndex1] = max(abs(plotLine1(oppositePointIndices1)));
-    oppositePointAngle1 = angle(plotLine1(oppositePointIndices1(oppositePointIndex1)));
-    
-    % Polar plot line 1
-    figure;
-    polarplot(plotLine1, 'o');
-    hold on;
-    % Plot the maximum amplitude point, the furthest point, and the opposite point
-    polarplot([oppositePointAngle1 maxAmplitudeAngle1], [oppositePointAmplitude1 maxAmpl1], 'r', 'LineWidth', 2);
-    polarplot(plotLine1(maxAmplIndex1), 'go', 'MarkerSize', 10, 'LineWidth', 2);
-    polarplot(oppositePointAngle1, oppositePointAmplitude1, 'mo', 'MarkerSize', 10, 'LineWidth', 2);
-    hold off;
-    
-    if(isempty(oppositePointAmplitude1))
-       amplitudeDifference_dB1 = Inf; 
-        title([elementNumber ' Polar Plot - Frequency ' num2str(freq1) ' GHz']);
-        subtitle(['Amplitude diff. of opposite values: NaN dB, DAC0 and DAC1 16 32 255'])
-    else
-        amplitudeDifference_dB1 = 20 * log10(maxAmpl1 / oppositePointAmplitude1);
-        title([elementNumber ' Polar Plot - Frequency ' num2str(freq1) ' GHz']);
-        subtitle(['Amplitude diff. of opposite values: ', num2str(amplitudeDifference_dB1),' dB, DAC0 and DAC1 16 32 255'])
-    end
+    % 
+    % % get max amplitude and it's angle
+    % [maxAmpl1, maxAmplIndex1] = max(abs(plotLine1));
+    % maxAmplitudeAngle1 = angle(plotLine1(maxAmplIndex1));
+    % 
+    % %min point 
+    % [minAmpl1, minAmplIndex1] = min(abs(plotLine1));
+    % minAmplitudeAngle1 = angle(plotLine1(minAmplIndex1));  
+    % 
+    % % maximum amplitude to Cartesian coordinates
+    % maxAmplitudePoint1 = maxAmpl1 * exp(1i * maxAmplitudeAngle1);
+    % 
+    % oppositeAngle1 = maxAmplitudeAngle1 + pi;
+    % if oppositeAngle1 > pi
+    %     oppositeAngle1 = oppositeAngle1 - 2*pi;
+    % end
+    % 
+    % % Find the point with the highest amplitude in the opposite direction
+    % oppositePointIndices1 = find(abs(angle(plotLine1) - oppositeAngle1) <= deg2rad(22.5));
+    % [oppositePointAmplitude1, oppositePointIndex1] = max(abs(plotLine1(oppositePointIndices1)));
+    % oppositePointAngle1 = angle(plotLine1(oppositePointIndices1(oppositePointIndex1)));
+    % 
+    % % Polar plot line 1
+    % figure;
+    % polarplot(plotLine1, 'o');
+    % hold on;
+    % % Plot the maximum amplitude point, the furthest point, and the opposite point
+    % polarplot([oppositePointAngle1 maxAmplitudeAngle1], [oppositePointAmplitude1 maxAmpl1], 'r', 'LineWidth', 2);
+    % polarplot(plotLine1(maxAmplIndex1), 'go', 'MarkerSize', 10, 'LineWidth', 2);
+    % polarplot(oppositePointAngle1, oppositePointAmplitude1, 'mo', 'MarkerSize', 10, 'LineWidth', 2);
+    % polarplot(plotLine1(minAmplIndex1), 'go', 'MarkerSize', 10, 'LineWidth', 2);
+    % hold off;
+    % 
+    % if(isempty(oppositePointAmplitude1))
+    %    amplitudeDifference_dB1 = Inf; 
+    %     title([elementNumber ' Polar Plot - Frequency ' num2str(freq1) ' GHz']);
+    %     subtitle(['Amplitude diff. of opposite values: NaN dB, max DACs ',num2str(maxAmplIndex1),' opposite DACs ',num2str(oppositePointIndex1),' min ',num2str(minAmplIndex1)])
+    % else
+    %     amplitudeDifference_dB1 = 10 * log10(maxAmpl1 / oppositePointAmplitude1);
+    %     title([elementNumber ' Polar Plot - Frequency ' num2str(freq1) ' GHz']);
+    %     subtitle(['Amplitude diff. of opposite values: ', num2str(amplitudeDifference_dB1),' dB, max DACs ',num2str(maxAmplIndex1),' opposite DACs ',num2str(oppositePointIndex1),' min ',num2str(minAmplIndex1)])
+    % end
 
     %rlim([-80 -40])
     % Polar plot line 2
@@ -243,6 +248,10 @@ for a=35:36
     % maximum amplitude to Cartesian coordinates
     maxAmplitudePoint2 = maxAmpl2 * exp(1i * maxAmplitudeAngle2);
     
+        %min point 
+    [minAmpl2, minAmplIndex2] = min(abs(plotLine2));
+    minAmplitudeAngle2 = angle(plotLine2(minAmplIndex2));  
+
     oppositeAngle2 = maxAmplitudeAngle2 + pi;
     if oppositeAngle2 > pi
         oppositeAngle2 = oppositeAngle2 - 2*pi;
@@ -261,22 +270,32 @@ for a=35:36
     polarplot([oppositePointAngle2 maxAmplitudeAngle2], [oppositePointAmplitude2 maxAmpl2], 'r', 'LineWidth', 2);
     polarplot(plotLine2(maxAmplIndex2), 'go', 'MarkerSize', 10, 'LineWidth', 2);
     polarplot(oppositePointAngle2, oppositePointAmplitude2, 'mo', 'MarkerSize', 10, 'LineWidth', 2);
+    polarplot(plotLine2(minAmplIndex2), 'go', 'MarkerSize', 10, 'LineWidth', 2);
     hold off;
     
     if(isempty(oppositePointAmplitude2))
        amplitudeDifference_dB2 = Inf; 
         title([elementNumber ' Polar Plot - Frequency ' num2str(freq2) ' GHz']);
-        subtitle(['Amplitude diff. of opposite values: NaN dB, DAC0 and DAC1 16 32 255'])
+        subtitle(['Amplitude diff. of opposite values: NaN dB, max DACs ',num2str(maxAmplIndex2),' opposite DACs ',num2str(oppositePointIndex2),' min ',num2str(minAmplIndex2)])
     else
-        amplitudeDifference_dB2 = 20 * log10(maxAmpl2 / oppositePointAmplitude2);
+        amplitudeDifference_dB2 = 10 * log10(maxAmpl2 / oppositePointAmplitude2);
         title([elementNumber ' Polar Plot - Frequency ' num2str(freq2) ' GHz']);
-        subtitle(['Amplitude diff. of opposite values: ', num2str(amplitudeDifference_dB2),' dB, DAC0 and DAC1 16 32 255'])
+        subtitle(['Amplitude diff. of opposite values: ', num2str(amplitudeDifference_dB2),' dB, max DACs ',num2str(maxAmplIndex2),' opposite DACs ',num2str(oppositePointIndex2),' min ',num2str(minAmplIndex2)])
     end
 
-
-
+for i = 1:length(plotLine2)
+    magnitude = abs(plotLine2(i));
+    phase = angle(plotLine2(i));  % Phase in radians
+    phase_deg = rad2deg(phase);  % Phase in degrees (optional)
+    
+    % Print the magnitude and phase in radians
+    fprintf('%d: %.4e (magnitude), %.4f radians (phase)\n', i, magnitude, phase_deg);
+    
+    % Uncomment the following line to print the phase in degrees instead of radians
+    % fprintf('%d: %.4e (magnitude), %.4f degrees (phase)\n', i, magnitude, phase_deg);
+end
     %rlim([-80 -40])
-  %  saveas(gcf,fullfile('VTT_transarray_matlab_pictures',[elementNumber,'_', num2str(freq2) ,'_polarplot_maski_elokuu_D0_16_32_255_D1_16_32_255_phaseCorrection.jpg']))
+%    saveas(gcf,fullfile('VTT_transarray_matlab_pictures',[elementNumber,'_', num2str(freq2) ,'_polarplot_maski_elokuu_D0_16_32_255_D1_16_32_255_phaseCorrection.jpg']))
 end
 
 

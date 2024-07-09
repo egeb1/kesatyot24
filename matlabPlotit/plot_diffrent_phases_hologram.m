@@ -10,8 +10,8 @@ a1 = fullfile(pathname,filename);
 filename = a1;
 
 %take element number as a constant
-element_number = extractBetween(filename, "row", "active_phase");
-element_number = str2double(element_number{1});
+%element_number = extractBetween(filename, "row", "active_phase");
+%element_number = str2double(element_number{1});
 
 
 
@@ -61,11 +61,11 @@ xlabel('x(m)')
 ylabel('Amplitude(dB)')
 clim([-90, -10])
 legend('Phase 0', 'Phase 180', 'Diff. of Ampl.', 'Location', 'best');
-title(['Element ', num2str(element_number), ' amplitudes at phases 0 and 180']);
+title(['Element amplitudes at phases 0 and 180']);
 subtitle('Hologram measurement, 75GHz, July 2023, y=-0.00275m, 10x10')
 hold off
 
-saveas(gcf,fullfile('VTT_transarray_matlab_pictures', ['Element_', num2str(element_number), '_Holo_amplitudes_0vs180_chess_heinakuu_10x10.jpg']));
+%saveas(gcf,fullfile('VTT_transarray_matlab_pictures', ['Element_', num2str(element_number), '_Holo_amplitudes_0vs180_chess_heinakuu_10x10.jpg']));
 
 figure(2)
 

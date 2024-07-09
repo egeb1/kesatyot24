@@ -1,0 +1,66 @@
+% Eero Pietiläinen 4.7.2023
+% Plottaa hologrammi amplitudin kuvaajana ja 2D kuvana.
+
+clear
+
+% open file browser and select a file
+[filename, pathname] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a1 = fullfile(pathname,filename);
+filename = a1;
+
+% Tallentaa elementin tilttikulman muuttujaan
+element_tilt = extractBetween(filename, "plus", "deg");
+element_tilt = str2double(element_tilt{1});
+
+steering_row = extractBetween(filename, "deg_", "_Holo");
+steering_row = str2double(steering_row{1});
+
+% Luetaan tekstitiedostoa
+values = readtable(filename,'NumHeaderLines',61, 'ExpectedNumVariables',4);
+amp = values.Amp;
+phase =values.Phase;
+
+% Otetaan tiedostosta osat, joissa y:n arvo on nolla
+amp_y0 = [amp(20101:20301)];
+phase_y0 = [phase(20101:20301)];
+
+% x-akselin arvot
+x = linspace(-0.025,0.025,201);
+
+
+
+% Plot images
+% figure(1)
+% 
+% plot(x,amp_y0,'b');
+% hold on
+% 
+% xlabel('x(m)')
+% ylabel('Amplitude(dB)')
+% 
+% title(['Hologram amplitude when azimuth tilt is ', num2str(element_tilt), ' degrees']);
+% subtitle('Hologram measurement at 75GHz, all elements on')
+% hold off
+% 
+% saveas(gcf,fullfile('VTT_transarray_matlab_pictures', ['Holo_amplitude_', num2str(element_tilt), 'degrees_tilt_00',num2str(steering_row),'_all_elementsONTEST.jpg']));
+
+%---------------------------
+
+figure(2)
+
+amp_holo = (reshape(amp,[201,201]));
+k= linspace(-0.025,0.025,201);
+imagesc(k,k,transpose(amp_holo));
+
+colorbar
+colormap('jet')
+ax = gca;
+ax.YDir = 'normal';
+clim([-40,-5])
+xlabel('x(m)')
+ylabel('y(m)')
+title(['Hologram amplitude when azimuth tilt is positive ', num2str(element_tilt), ' degrees']);
+subtitle('Hologram measurement at 75GHz, all elements on')
+
+saveas(gcf,fullfile('VTT_transarray_matlab_pictures', ['Holo_amplitude_', num2str(element_tilt), 'degrees_tilt_00',num2str(steering_row),'_all_elementsON_new.jpg']));
+

@@ -11,8 +11,8 @@ a1 = fullfile(pathname,filename);
 filename = a1;
 
 %take element number as a constant
-element_number = extractBetween(filename, "row", "active_phase");
-element_number = str2double(element_number{1});
+%element_number = extractBetween(filename, "row", "active_phase");
+%element_number = str2double(element_number{1});
 
 
 
@@ -92,7 +92,7 @@ plot(x,amp_tot_y0, 'g');
 xlabel('x(m)')
 ylabel('Amplitude(dB)')
 legend('Phase 0','Phase 90', 'Phase 180','Phase 270', 'Difference of Amplitudes', 'Location', 'best');
-title(['Element ', num2str(element_number), ' amplitudes at phases 0 and 180']);
+%title(['Element ', num2str(element_number), ' amplitudes at phases 0 and 180']);
 subtitle('Hologram measurement at 75GHz July 2023')
 %max(amp_tot_y0)
 hold off
@@ -121,7 +121,7 @@ ax.YDir = 'normal';
 clim([-40,-5])
 xlabel('x(m)')
 ylabel('y(m)')
-title(['Element ', num2str(element_number), ' amplitude difference at phases 0, 90, 180, 270']);
+%title(['Element ', num2str(element_number), ' amplitude difference at phases 0, 90, 180, 270']);
 subtitle('Hologram measurement at 75GHz, mask, July 2023')
 
 %saveas(gcf, fullfile('VTT_transarray_matlab_pictures', ['Element_', num2str(element_number), '_Hologram_amplitudes_0vs180_dif_2D_chessboard_heinakuu_10x10_maski.jpg']));
@@ -141,7 +141,7 @@ clim([-5,-1])
 xlabel('x(m)')
 ylabel('y(m)')
 maximi0 = max(amp_0)
-title(['Element ', num2str(element_number), ' amplitude at phases 0']);
+%title(['Element ', num2str(element_number), ' amplitude at phases 0']);
 subtitle('Hologram measurement at 75GHz, mask, July 2023')
 
 %saveas(gcf, fullfile('VTT_transarray_matlab_pictures', ['Element_', num2str(element_number), '_Hologram_amplitude_phase0_2D_chessboard_heinakuu_10x10_maski_norm.jpg']));
@@ -161,7 +161,7 @@ clim([-5,-1])
 xlabel('x(m)')
 ylabel('y(m)')
 maximi90 =max(amp_90)
-title(['Element ', num2str(element_number), ' amplitude at phases 90']);
+%title(['Element ', num2str(element_number), ' amplitude at phases 90']);
 subtitle('Hologram measurement at 75GHz, mask, July 2023')
 
 %saveas(gcf, fullfile('VTT_transarray_matlab_pictures', ['Element_', num2str(element_number), '_Hologram_amplitude_phase90_2D_chessboard_heinakuu_10x10_maski_norm.jpg']));
@@ -180,7 +180,7 @@ clim([-5,-1])
 xlabel('x(m)')
 ylabel('y(m)')
 maximi180 =max(amp_180)
-title(['Element ', num2str(element_number), ' amplitude at phases 180']);
+%title(['Element ', num2str(element_number), ' amplitude at phases 180']);
 subtitle('Hologram measurement at 75GHz, mask, July 2023')
 
 %saveas(gcf, fullfile('VTT_transarray_matlab_pictures', ['Element_', num2str(element_number), '_Hologram_amplitude_phase180_2D_chessboard_heinakuu_10x10_maski_norm.jpg']));
@@ -200,7 +200,7 @@ clim([-5,-1])
 xlabel('x(m)')
 ylabel('y(m)')
 maximi270 = max(amp_270)
-title(['Element ', num2str(element_number), ' amplitude at phases 270']);
+%title(['Element ', num2str(element_number), ' amplitude at phases 270']);
 subtitle('Hologram measurement at 75GHz, mask, July 2023')
 
 %saveas(gcf, fullfile('VTT_transarray_matlab_pictures', ['Element_', num2str(element_number), '_Hologram_amplitude_phase270_2D_chessboard_heinakuu_10x10_maski_norm.jpg']));

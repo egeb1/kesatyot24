@@ -3,8 +3,8 @@ clear all
 [filename, pathname] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
 a1 = fullfile(pathname,filename);
 filename = a1;
-element_number = extractBetween(filename, "row", "active_phase");
-element_number = str2double(element_number{1});
+%element_number = extractBetween(filename, "row", "active_phase");
+%element_number = str2double(element_number{1});
 values_0 = readtable(filename,'NumHeaderLines',52, 'ExpectedNumVariables',4);
 amp_0 = values_0.Amp;
 phase_0 = values_0.Phase;

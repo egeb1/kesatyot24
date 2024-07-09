@@ -6,7 +6,7 @@
 % Viereiset elementit vastakkaisissa vaiheissa.
 clear all
 
-amplitude = 72.5;
+amplitude = 75;
 [filename, pathname] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
 a1 = fullfile(pathname,filename);
 filename = a1;

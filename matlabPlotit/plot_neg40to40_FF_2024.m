@@ -1,0 +1,150 @@
+% Eero Pietiläinen 3.7.2024
+% piirtää keilankäännön azimuthissa tai elevaatiossa -40:10:40 (astetta)
+clear all
+axis = 'elevation';
+amplitude = 75;
+[filename, pathname] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a1 = fullfile(pathname,filename);
+filename = a1;
+%element_number = extractBetween(filename, "row", "active_phase");
+%element_number = str2double(element_number{1});
+values_1 = readtable(filename,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_1 = values_1.Amp;
+phase_1 = values_1.Phase;
+
+[filename2, pathname2] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a2 = fullfile(pathname2,filename2);
+filename2 = a2;
+values_2 = readtable(filename2,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_2 = values_2.Amp;
+phase_2 = values_2.Phase;
+
+
+[filename3, pathname3] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+filename3 = fullfile(pathname3,filename3);
+
+values_3 = readtable(filename3,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_3 = values_3.Amp;
+phase_3 = values_3.Phase;
+
+[filename4, pathname4] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+filename4 = fullfile(pathname4,filename4);
+values_4 = readtable(filename4,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_4 = values_4.Amp;
+phase_4 = values_4.Phase;
+
+[filename5, pathname5] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+filename5 = fullfile(pathname5,filename5);
+values5 = readtable(filename5,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_5 = values5.Amp;
+phase_5 = values5.Phase;
+
+
+
+[filename6, pathname6] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+a6 = fullfile(pathname6,filename6);
+filename6 = a6;
+values_6 = readtable(filename6,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_6 = values_6.Amp;
+phase_6 = values_6.Phase;
+
+
+[filename7, pathname7] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+filename7 = fullfile(pathname7,filename7);
+
+values_7 = readtable(filename7,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_7 = values_7.Amp;
+phase_7 = values_7.Phase;
+
+[filename8, pathname8] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+filename8 = fullfile(pathname8,filename8);
+values_8 = readtable(filename8,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_8 = values_8.Amp;
+phase_8 = values_8.Phase;
+
+[filename9, pathname9] = uigetfile('*.txt', 'Pick txt file','/Path/to/folder/Data/');
+filename9 = fullfile(pathname9,filename9);
+values9 = readtable(filename9,'NumHeaderLines',72, 'ExpectedNumVariables',4);
+amp_9 = values9.Amp;
+phase_9 = values9.Phase;
+
+
+% Otetaan datasta kohdat, joissa elevaatio on nolla
+if strcmp('azimuth',axis)
+        amp_1 = [amp_1(9871:10011)];
+        amp_2 = [amp_2(9871:10011)];
+        amp_3 = [amp_3(9871:10011)];
+        amp_4 = [amp_4(9871:10011)];
+        amp_5 = [amp_5(9871:10011)];
+        amp_6 = [amp_6(9871:10011)];
+        amp_7 = [amp_7(9871:10011)];
+        amp_8 = [amp_8(9871:10011)];
+        amp_9 = [amp_9(9871:10011)];
+        
+        phase_1 = [phase_1(9871:10011)];
+        phase_2 = [phase_2(9871:10011)];
+        phase_3 = [phase_3(9871:10011)];
+        phase_4 = [phase_4(9871:10011)];
+        phase_5 = [phase_5(9871:10011)];
+        phase_6 = [phase_6(9871:10011)];
+        phase_7 = [phase_7(9871:10011)];
+        phase_8 = [phase_8(9871:10011)];
+        phase_9 = [phase_9(9871:10011)];
+elseif strcmp('elevation',axis)
+        amp_1 = [amp_1(71:141:19811)];
+        amp_2 = [amp_2(71:141:19811)];
+        amp_3 = [amp_3(71:141:19811)];
+        amp_4 = [amp_4(71:141:19811)];
+        amp_5 = [amp_5(71:141:19811)];
+        amp_6 = [amp_6(71:141:19811)];
+        amp_7 = [amp_7(71:141:19811)];
+        amp_8 = [amp_8(71:141:19811)];
+        amp_9 = [amp_9(71:141:19811)];
+        
+        phase_1 = [phase_1(71:141:19811)];
+        phase_2 = [phase_2(71:141:19811)];
+        phase_3 = [phase_3(71:141:19811)];
+        phase_4 = [phase_4(71:141:19811)];
+        phase_5 = [phase_5(71:141:19811)];
+        phase_6 = [phase_6(71:141:19811)];
+        phase_7 = [phase_7(71:141:19811)];
+        phase_8 = [phase_8(71:141:19811)];
+        phase_9 = [phase_9(71:141:19811)];
+
+end
+% Lasketaan amplitudien erotus
+% dB asteikolta lineaariseen ja otetaan vaihe huomioon
+% amp_0_ndB = 10.^(amp_0/20).*exp(1i*phase_0*pi/180);
+% amp_180_ndB = 10.^(amp_180/20).*exp(1i*phase_180*pi/180);
+% 
+% amp_90_ndB = 10.^(amp_90/20).*exp(1i*(phase_90*pi/180+pi/2));
+% amp_270_ndB = 10.^(amp_270/20).*exp(1i*(phase_270*pi/180+pi/2));
+
+% Varsinainen erotus ja siitä siirrytään takaisin dB-asteikolle
+%amp_tot = 20 * log10(abs(amp_0_ndB+amp_270_ndB - amp_90_ndB - amp_180_ndB));
+
+
+% Piirretään kuvat
+
+x = linspace(-70,70,141);
+
+plot(x,amp_1);
+hold on
+plot(x,amp_2);
+plot(x,amp_3);
+plot(x,amp_4);
+plot(x,amp_5);
+plot(x,amp_6);
+plot(x,amp_7);
+plot(x,amp_8);
+plot(x,amp_9);
+%plot(x,amp_tot, 'g');
+xlabel([axis,'(deg.)'])
+ylabel('Amplitude(dB)')
+title(['FF, ', num2str(amplitude),'GHz June 2024, -40:10:40 deg, RF&LO pwr 8dBm, add atten. 9dB'])
+ylim([-125 -75])
+%legend('Steer. ang. 0','Steer. ang. 10', 'Steer. ang. 20','Steer. ang. 30','Steer. ang. 40', 'Location', 'best');
+hold off
+
+
+saveas(gcf,fullfile('VTT_transarray_matlab_pictures_2024', ['FF_amplitude_with_',axis,'_neg40_to_40_deg_steer_ang_RF_and_LO_power_8dBm_',num2str(amplitude),'GHz_add_9dB_atten.jpg']));
