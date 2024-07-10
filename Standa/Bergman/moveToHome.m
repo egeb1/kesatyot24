@@ -1,5 +1,4 @@
-
-function moveMaskAndProbe(activeElement)
+function moveToHome()
 
 addpath('src')
 try
@@ -9,10 +8,7 @@ try
 % 2.5mm= 1000 * 2.5 µm
 % xpos = 0; % steps (2.5 µm per)
 % ypos = 0; %steps (1 µm per)
-dx = 1000; % means that we move 1000 steps when 1 step is 2.5 um
-dy = 2500; % moving 2500 steps when 1 step is 1 um
-xpos = floor((activeElement - 1) / 8) * dx;
-ypos = mod((activeElement - 1), 8) * dy;
+
 
 %% Initialization of the device
 % -------------------------------------------------------------------------
@@ -40,23 +36,27 @@ else % Save the device IDs into the device_ids array
     end
 end
 
-%% Move the device
-% -------------------------------------------------------------------------
+% Based on my trials, it seems like both stages can be moved simultaenously
+% by calling their movements sequentially followed by their "wait_for_stop"
+% sequentially.
+% 
+% Start the movement of both stages to their home positions
+calllib('libximc','command_home', device_ids(1));
+calllib('libximc','command_home', device_ids(2));
+calllib('libximc','command_home', device_ids(3));
+calllib('libximc','command_home', device_ids(4));
 
-% Start the movement to the position set by xpos and ypos
-calllib('libximc','command_move', device_ids(1),xpos,0);
-calllib('libximc','command_move', device_ids(2),ypos,0);
-calllib('libximc','command_move', device_ids(3),xpos,0);
-calllib('libximc','command_move', device_ids(4),ypos,0);
-
-
-% Continue with code only after both have reached their commanded position.
+% Continue with code only after both have reached their home position.
 calllib('libximc','command_wait_for_stop', device_ids(1), 100);
 calllib('libximc','command_wait_for_stop', device_ids(2), 100);
 calllib('libximc','command_wait_for_stop', device_ids(3), 100);
 calllib('libximc','command_wait_for_stop', device_ids(4), 100);
 
-
+% Set the zero location to be the reached home location
+callib('libximc','command_zero',device_ids(1))
+callib('libximc','command_zero',device_ids(2))
+callib('libximc','command_zero',device_ids(3))
+callib('libximc','command_zero',device_ids(4))
 
 
 %Close devices so they can be used by another program
