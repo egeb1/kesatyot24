@@ -15,13 +15,13 @@ try
 % range in matlab code to same freq range and as in VNA. NumPoints as well
 % check from VNA.
 % set how many rows of data inputed to arduino
-numOfControlUnits = 15;
+numOfControlUnits = 64;
 % Element set to be active -6dB?
 %activeElement = 1;
 % frequency
-f = [60e9, 90e9];
+f = [70e9, 80e9];
 % number of measurement points
-numPoints = 31;
+numPoints = 21;
 % arduino COM port
 comPort ='COM5';
 
@@ -35,14 +35,16 @@ end
 % Determine how much move mask and probe when elements are
 % measured from 1 to 64. Y position should always move and X pos moves
 % after 8 elements have been measured
-dx = 1000; % means that we move 1000 steps when 1 step is 2.5 um
-dy = 2500; % moving 2500 steps when 1 step is 1 um
-x = floor((activeElement - 1) / 8) * dx;
-y = mod((activeElement - 1), 8) * dy;
+xpos = floor((activeElement - 1) / 8) * dx;
+ypos = mod((activeElement - 1), 8) * dy;
+
+if(mod(activeElement,4)==0)
+    moveToHome
+end
 
 % Run updating DACs and moving mask&probe in parallel to save time
 f1 = parfeval(@updateDACs, 0,activeElement,comPort); % 0 is the number of output arguments
-f2 = parfeval(@moveMaskAndProbe, 0,xpos, ypos);
+f2 = parfeval(@moveMaskAndProbe, 0,activeElement);
 
 %w Wait for both to be ready before continuing
 wait(f1)
