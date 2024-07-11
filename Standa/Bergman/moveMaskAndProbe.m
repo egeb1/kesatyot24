@@ -7,12 +7,16 @@ try
 %% Initialization of variables
 % -------------------------------------------------------------------------
 % 2.5mm= 1000 * 2.5 µm
-% xpos = 0; % steps (2.5 µm per)
-% ypos = 0; %steps (1 µm per)
-dx = 1000; % means that we move 1000 steps when 1 step is 2.5 um
-dy = 2500; % moving 2500 steps when 1 step is 1 um
+
+% steps to move correct amount each time
+dx = 2500; % moving 2500 steps when 1 step is 1 µm
+dy = 1000; % means that we move 1000 steps when 1 step is 2.5 µm
+
+% move in y-axis all the time with 2.5 mm step and in x-axis let's move
+% every eight element. 
 xpos = floor((activeElement - 1) / 8) * dx;
 ypos = mod((activeElement - 1), 8) * dy;
+
 
 %% Initialization of the device
 % -------------------------------------------------------------------------
@@ -44,8 +48,8 @@ end
 % -------------------------------------------------------------------------
 
 % Start the movement to the position set by xpos and ypos
-calllib('libximc','command_move', device_ids(1),xpos,0);
-calllib('libximc','command_move', device_ids(2),ypos,0);
+calllib('libximc','command_move', device_ids(1),ypos,0);
+calllib('libximc','command_move', device_ids(2),xpos,0);
 calllib('libximc','command_move', device_ids(3),xpos,0);
 calllib('libximc','command_move', device_ids(4),ypos,0);
 

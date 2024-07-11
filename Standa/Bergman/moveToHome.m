@@ -1,14 +1,11 @@
+% Based on Jan Bergman's code modified by Eero Pietiläinen 10.7.2024.
+% Function to move stages to home position and setting home position as 
+% zero position. 
+
 function moveToHome()
 
 addpath('src')
 try
-
-%% Initialization of variables
-% -------------------------------------------------------------------------
-% 2.5mm= 1000 * 2.5 µm
-% xpos = 0; % steps (2.5 µm per)
-% ypos = 0; %steps (1 µm per)
-
 
 %% Initialization of the device
 % -------------------------------------------------------------------------
@@ -40,13 +37,13 @@ end
 % by calling their movements sequentially followed by their "wait_for_stop"
 % sequentially.
 % 
-% Start the movement of both stages to their home positions
+% Start the movement of four stages to their home positions
 calllib('libximc','command_home', device_ids(1));
 calllib('libximc','command_home', device_ids(2));
 calllib('libximc','command_home', device_ids(3));
 calllib('libximc','command_home', device_ids(4));
 
-% Continue with code only after both have reached their home position.
+% Continue with code only after all four have reached their home position.
 calllib('libximc','command_wait_for_stop', device_ids(1), 100);
 calllib('libximc','command_wait_for_stop', device_ids(2), 100);
 calllib('libximc','command_wait_for_stop', device_ids(3), 100);
